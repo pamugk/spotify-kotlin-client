@@ -2,14 +2,17 @@ package spotify.api
 
 import io.ktor.application.*
 import io.ktor.client.*
+import io.ktor.client.features.*
 import io.ktor.client.features.auth.*
 import io.ktor.client.features.auth.providers.*
 import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
+import io.ktor.client.features.logging.*
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
 import io.ktor.html.*
 import io.ktor.http.*
+import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.server.cio.*
 import io.ktor.server.engine.*
@@ -18,6 +21,7 @@ import kotlinx.html.body
 import kotlinx.html.h1
 import kotlinx.html.head
 import kotlinx.html.title
+import kotlinx.serialization.json.Json
 
 typealias CIOClient = io.ktor.client.engine.cio.CIO
 
@@ -30,6 +34,7 @@ class SpotifyOAuth2Client(private val config: SpotifyClientConfiguration) {
     private val state = getRandomState(16)
     private lateinit var authorizationCode: String
     private lateinit var tokenInfo: TokenInfo
+    private lateinit var refreshToken: String
 
     private val redirectUrl
         get() = url{
@@ -59,16 +64,15 @@ class SpotifyOAuth2Client(private val config: SpotifyClientConfiguration) {
         url {
             protocol = URLProtocol.HTTPS
             host = "accounts.spotify.com"
-            path("spotify/api", "token")
+            path("api", "token")
         }
         formData {
-            append("grant_type", tokenType)
-            append("code", authorizationCode)
-            append("client_id", config.clientId)
-            append("redirect_uri", redirectUrl)
+            parameter("grant_type", tokenType)
+            parameter("code", authorizationCode)
+            parameter("redirect_uri", redirectUrl)
         }
         headers {
-            append("Authorization", "Authorization: Basic $fullSecret")
+            append("Authorization", "Basic $fullSecret")
         }
     }
 
@@ -78,48 +82,57 @@ class SpotifyOAuth2Client(private val config: SpotifyClientConfiguration) {
         routing {
             get("/callback") {
                 if (state != call.parameters["state"]) {
-                    call.respondHtml(HttpStatusCode.Forbidden) {
-                        head {
-                            title {
-                                +"Неофициальный клиент Spotify"
-                            }
-                        }
-                        body {
-                            h1 {
-                                +"Замечено вмешательство в процесс входа, доступ запрещён"
-                            }
-                        }
-                    }
+                    call.respondRedirect("blocked")
                 } else {
                     val authError = call.parameters["error"]
                     if (call.parameters["code"] == null || authError != null) {
-                        call.respondHtml(HttpStatusCode.BadRequest) {
-                            head {
-                                title {
-                                    +"Неофициальный клиент Spotify"
-                                }
-                            }
-                            body {
-                                h1 {
-                                    +"Отказано в доступе"
-                                }
-                            }
-                        }
+                        call.respondRedirect("error")
                     } else {
                         authorizationCode = call.parameters["code"]!!
-                        call.respondHtml(HttpStatusCode.OK) {
-                            head {
-                                title {
-                                    +"Неофициальный клиент Spotify"
-                                }
-                            }
-                            body {
-                                h1 {
-                                    +"Вход успешно завершён, можете возвращаться в приложение"
-                                }
-                            }
-                        }
                         authenticationStatusChanged(true)
+                        call.respondRedirect("success")
+                    }
+                }
+            }
+            get("/blocked") {
+                call.respondHtml(HttpStatusCode.Forbidden) {
+                    head {
+                        title {
+                            +"Неофициальный клиент Spotify"
+                        }
+                    }
+                    body {
+                        h1 {
+                            +"Замечено вмешательство в процесс входа, доступ запрещён"
+                        }
+                    }
+                }
+            }
+            get("/error") {
+                call.respondHtml(HttpStatusCode.BadRequest) {
+                    head {
+                        title {
+                            +"Неофициальный клиент Spotify"
+                        }
+                    }
+                    body {
+                        h1 {
+                            +"Отказано в доступе"
+                        }
+                    }
+                }
+            }
+            get("/success") {
+                call.respondHtml(HttpStatusCode.OK) {
+                    head {
+                        title {
+                            +"Неофициальный клиент Spotify"
+                        }
+                    }
+                    body {
+                        h1 {
+                            +"Вход успешно завершён, можете возвращаться в приложение"
+                        }
                     }
                 }
             }
@@ -128,20 +141,31 @@ class SpotifyOAuth2Client(private val config: SpotifyClientConfiguration) {
 
     private val tokenClient = HttpClient(CIOClient){
         install(JsonFeature) {
-            serializer = KotlinxSerializer()
+            serializer = KotlinxSerializer(kotlinx.serialization.json.Json {
+                ignoreUnknownKeys = true
+                explicitNulls = false
+            })
+        }
+        install(Logging) {
+            logger = Logger.DEFAULT
+            level = LogLevel.ALL
         }
     }
 
-    private val apiClient = HttpClient(CIOClient) {
+    val client = HttpClient(CIOClient) {
+        defaultRequest {
+            host = "api.spotify.com"
+        }
         install(Auth) {
             bearer {
                 loadTokens {
                     tokenInfo = tokenClient.use {
                         it.submitForm(block = makeTokenRequestBuilder("authorization_code"))
                     }
+                    refreshToken = tokenInfo.refreshToken!!
                     BearerTokens(
                         accessToken = tokenInfo.accessToken,
-                        refreshToken = tokenInfo.refreshToken!!
+                        refreshToken = refreshToken
                     )
                 }
                 refreshTokens {
@@ -150,13 +174,20 @@ class SpotifyOAuth2Client(private val config: SpotifyClientConfiguration) {
                     }
                     BearerTokens(
                         accessToken = tokenInfo.accessToken,
-                        refreshToken = tokenInfo.refreshToken!!
+                        refreshToken = refreshToken
                     )
                 }
             }
         }
         install(JsonFeature) {
-            serializer = KotlinxSerializer()
+            serializer = KotlinxSerializer(kotlinx.serialization.json.Json {
+                ignoreUnknownKeys = true
+                explicitNulls = false
+            })
+        }
+        install(Logging) {
+            logger = Logger.DEFAULT
+            level = LogLevel.ALL
         }
     }
 }

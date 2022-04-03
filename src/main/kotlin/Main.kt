@@ -3,12 +3,14 @@ import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import dev.burnoo.cokoin.Koin
 import dev.burnoo.cokoin.get
 import spotify.api.SpotifyOAuth2Client
+import spotify.api.service.getCurrentUser
 import spotify.appModule
 import java.awt.Desktop
 import java.net.URI
@@ -24,6 +26,8 @@ fun App(loggedIn: Boolean) {
                     Button(onClick = {
                         Desktop.getDesktop().browse(URI.create(spotifyClient.loginUrl))
                     }){}
+                } else {
+                    Text(spotifyClient.getCurrentUser().id)
                 }
             }
         }
