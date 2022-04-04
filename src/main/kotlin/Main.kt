@@ -18,17 +18,15 @@ import java.net.URI
 @Composable
 @Preview
 fun App(loggedIn: Boolean) {
-    Koin(appDeclaration = { modules(appModule) }) {
-        val spotifyClient = get<SpotifyOAuth2Client>()
-        MaterialTheme {
-            Box {
-                if (!loggedIn) {
-                    Button(onClick = {
-                        Desktop.getDesktop().browse(URI.create(spotifyClient.loginUrl))
-                    }){}
-                } else {
-                    Text(spotifyClient.getCurrentUser().id)
-                }
+    val spotifyClient = get<SpotifyOAuth2Client>()
+    MaterialTheme {
+        Box {
+            if (!loggedIn) {
+                Button(onClick = {
+                    Desktop.getDesktop().browse(URI.create(spotifyClient.loginUrl))
+                }){}
+            } else {
+                Text(spotifyClient.getCurrentUser().id)
             }
         }
     }

@@ -23,6 +23,7 @@ dependencies {
     implementation(compose.desktop.currentOs)
     implementation("dev.burnoo:cokoin:0.3.3")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.2")
 
     implementation("io.ktor:ktor-server-core:$ktorVersion")
     implementation("io.ktor:ktor-server-cio:$ktorVersion")

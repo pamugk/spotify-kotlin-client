@@ -3,17 +3,7 @@ package spotify.api.domain
 import kotlinx.serialization.SerialName
 
 @kotlinx.serialization.Serializable
-data class ExplicitContentConfig(
-    /**
-     * When <strong>true</strong>, indicates that explicit content should not be played.
-     */
-    val filterEnabled: Boolean,
-    /**
-     * When <strong>true</strong>, indicates that the explicit content setting is locked and can't be changed by the user.
-     */
-    val filterLocked: Boolean)
-
-@kotlinx.serialization.Serializable
+@SerialName("user")
 /**
  * A user
  */
@@ -53,11 +43,11 @@ data class User(
     /**
      * A link to the Web API endpoint for this user.
      */
-    val href: String,
+    override val href: String,
     /**
      * The <a href="https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids">Spotify user ID</a> for the user.
      */
-    val id: String,
+    override val id: String,
     /**
      * The image width in pixels.
      */
@@ -75,5 +65,16 @@ data class User(
     /**
      * The <a href="https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids">Spotify URI</a> for the user.
      */
-    val uri: String
-)
+    override val uri: String
+): Entity() {
+    @kotlinx.serialization.Serializable
+    data class ExplicitContentConfig(
+        /**
+         * When <strong>true</strong>, indicates that explicit content should not be played.
+         */
+        val filterEnabled: Boolean,
+        /**
+         * When <strong>true</strong>, indicates that the explicit content setting is locked and can't be changed by the user.
+         */
+        val filterLocked: Boolean)
+}
