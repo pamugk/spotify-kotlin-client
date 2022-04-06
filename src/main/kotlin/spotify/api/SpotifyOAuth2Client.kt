@@ -21,7 +21,6 @@ import kotlinx.html.body
 import kotlinx.html.h1
 import kotlinx.html.head
 import kotlinx.html.title
-import kotlinx.serialization.json.Json
 
 typealias CIOClient = io.ktor.client.engine.cio.CIO
 
@@ -32,9 +31,9 @@ class SpotifyOAuth2Client(private val config: SpotifyClientConfiguration) {
     }
 
     private val state = getRandomState(16)
-    private lateinit var authorizationCode: String
-    private lateinit var tokenInfo: TokenInfo
-    private lateinit var refreshToken: String
+    private var authorizationCode: String? = null
+    private var accessToken: String? = null
+    private var refreshToken: String? = null
 
     private val redirectUrl
         get() = url{
@@ -159,22 +158,23 @@ class SpotifyOAuth2Client(private val config: SpotifyClientConfiguration) {
         install(Auth) {
             bearer {
                 loadTokens {
-                    tokenInfo = tokenClient.use {
-                        it.submitForm(block = makeTokenRequestBuilder("authorization_code"))
+                    val tokenInfo = tokenClient.use {
+                        it.submitForm<TokenInfo>(block = makeTokenRequestBuilder("authorization_code"))
                     }
+                    accessToken = tokenInfo.accessToken
                     refreshToken = tokenInfo.refreshToken!!
                     BearerTokens(
                         accessToken = tokenInfo.accessToken,
-                        refreshToken = refreshToken
+                        refreshToken = tokenInfo.refreshToken
                     )
                 }
                 refreshTokens {
-                    tokenInfo = tokenClient.use {
-                        it.submitForm(block = makeTokenRequestBuilder("refresh_token"))
+                    val tokenInfo = tokenClient.use {
+                        it.submitForm<TokenInfo>(block = makeTokenRequestBuilder("refresh_token"))
                     }
                     BearerTokens(
                         accessToken = tokenInfo.accessToken,
-                        refreshToken = refreshToken
+                        refreshToken = refreshToken!!
                     )
                 }
             }
@@ -189,5 +189,12 @@ class SpotifyOAuth2Client(private val config: SpotifyClientConfiguration) {
             logger = Logger.DEFAULT
             level = LogLevel.ALL
         }
+    }
+
+    fun logOut() {
+        authorizationCode = null
+        accessToken = null
+        refreshToken = null
+        authenticationStatusChanged(false)
     }
 }

@@ -18,12 +18,18 @@ repositories {
 }
 
 val ktorVersion = "1.6.8"
+val cokoinVersion = "0.3.3"
+val decomposeVersion = "0.5.2"
+
+val kotlinxSerializationVersion = "1.3.2"
+val kotlinxDatetimeVersion = "0.3.2"
 
 dependencies {
     implementation(compose.desktop.currentOs)
-    implementation("dev.burnoo:cokoin:0.3.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.2")
+    implementation("dev.burnoo:cokoin:$cokoinVersion")
+    implementation("com.arkivanov.decompose:extensions-compose-jetbrains:$decomposeVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:$kotlinxDatetimeVersion")
 
     implementation("io.ktor:ktor-server-core:$ktorVersion")
     implementation("io.ktor:ktor-server-cio:$ktorVersion")
