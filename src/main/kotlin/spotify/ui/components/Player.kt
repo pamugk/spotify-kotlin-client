@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Slider
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -17,35 +18,34 @@ import spotify.ui.util.time
 import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
-@Preview
-fun PLayer() {
+fun PLayer(modifier: Modifier = Modifier) {
     val isFavorite = remember { mutableStateOf(false) }
     val isPlaying = remember { mutableStateOf(false) }
     val position = remember { mutableStateOf(0.milliseconds) }
     val duration = 66000.milliseconds
     val volume = remember { mutableStateOf(1f) }
 
-    Row(Modifier.padding(16.dp, 0.dp), Arrangement.SpaceBetween, Alignment.CenterVertically) {
-        Button({}){
+    Row(modifier.defaultMinSize(minHeight = 72.dp).padding(16.dp, 0.dp), Arrangement.SpaceBetween, Alignment.CenterVertically) {
+        TextButton({}){
             Text("heart", fontFamily = fontAwesomeFamily,
                 fontWeight = if (isFavorite.value) FontWeight.W900 else FontWeight.W400)
         }
 
         Column(Modifier.weight(0.6f), Arrangement.SpaceEvenly, Alignment.CenterHorizontally) {
             Row(Modifier, Arrangement.Center, Alignment.CenterVertically) {
-                Button({}){
+                TextButton({}){
                     Text("shuffle", fontFamily = fontAwesomeFamily, fontWeight = FontWeight.W900)
                 }
-                Button({}){
+                TextButton({}){
                     Text("backward-step", fontFamily = fontAwesomeFamily, fontWeight = FontWeight.W900)
                 }
-                Button({isPlaying.value = !isPlaying.value}){
+                TextButton({isPlaying.value = !isPlaying.value}){
                     Text(if (isPlaying.value) "circle-pause" else "circle-play", fontFamily = fontAwesomeFamily, fontWeight = FontWeight.W900)
                 }
-                Button({}){
+                TextButton({}){
                     Text("forward-step", fontFamily = fontAwesomeFamily, fontWeight = FontWeight.W900)
                 }
-                Button({}){
+                TextButton({}){
                     Text("repeat", fontFamily = fontAwesomeFamily, fontWeight = FontWeight.W900)
                 }
             }
@@ -61,16 +61,16 @@ fun PLayer() {
             }
         }
 
-        Button({}){
+        TextButton({}){
             Text("microphone", fontFamily = fontAwesomeFamily, fontWeight = FontWeight.W900)
         }
-        Button({}){
+        TextButton({}){
             Text("list", fontFamily = fontAwesomeFamily, fontWeight = FontWeight.W900)
         }
-        Button({}){
+        TextButton({}){
             Text("computer", fontFamily = fontAwesomeFamily, fontWeight = FontWeight.W900)
         }
-        Button({ volume.value = 0f }){
+        TextButton({ volume.value = 0f }){
             Text(
                 when(volume.value) {
                     in 0.66f..1f -> "volume-high"

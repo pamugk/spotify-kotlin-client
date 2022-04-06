@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -33,10 +34,10 @@ inline fun Navbar(
     spotifyClient.authenticationStatusChanged += { loggedIn.value = it }
 
     Row(modifier = modifier) {
-        Button(onClick = {}){
+        TextButton(onClick = {}, enabled = false){
             Text("angle-left", fontFamily = fontAwesomeFamily, fontWeight = FontWeight.W900)
         }
-        Button(onClick = {}){
+        TextButton(onClick = {}, enabled = false){
             Text("angle-right", fontFamily = fontAwesomeFamily, fontWeight = FontWeight.W900)
         }
         secondaryContent()
