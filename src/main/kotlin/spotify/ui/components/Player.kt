@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import spotify.ui.resources.fontAwesomeFamily
+import spotify.ui.util.time
 import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
@@ -49,14 +50,14 @@ fun PLayer() {
                 }
             }
             Row(Modifier, Arrangement.SpaceAround, Alignment.CenterVertically) {
-                Text(position.value.toString())
+                Text(time(position.value))
                 Slider(
                     position.value.inWholeMilliseconds.toFloat(),
                     { position.value = it.toDouble().milliseconds },
                     Modifier.width(512.dp), true,
                     0f..duration.inWholeMilliseconds.toFloat()
                 )
-                Text(duration.toString())
+                Text(time(duration))
             }
         }
 
