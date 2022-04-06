@@ -59,16 +59,29 @@ class SpotifyOAuth2Client(private val config: SpotifyClientConfiguration) {
     private val fullSecret
         get() = "${config.clientId}:${config.clientSecret}".encodeBase64()
 
-    private fun makeTokenRequestBuilder(tokenType: String): HttpRequestBuilder.() -> Unit = {
+    private enum class GrantType(val value: String) {
+        AUTHORIZATION_CODE("authorization_code"),
+        REFRESH_TOKEN("refresh_token"),
+        CLIENT_CREDENTIALS("client_credentials");
+    }
+
+    private fun makeTokenRequestBuilder(grantType: GrantType): HttpRequestBuilder.() -> Unit = {
         url {
             protocol = URLProtocol.HTTPS
             host = "accounts.spotify.com"
             path("api", "token")
         }
         formData {
-            parameter("grant_type", tokenType)
-            parameter("code", authorizationCode)
-            parameter("redirect_uri", redirectUrl)
+            parameter("grant_type", grantType.value)
+            when (grantType) {
+                GrantType.AUTHORIZATION_CODE -> {
+                    parameter("code", authorizationCode)
+                    parameter("redirect_uri", redirectUrl)
+                }
+                GrantType.REFRESH_TOKEN -> TODO()
+                GrantType.CLIENT_CREDENTIALS -> TODO()
+            }
+
         }
         headers {
             append("Authorization", "Basic $fullSecret")
@@ -159,22 +172,27 @@ class SpotifyOAuth2Client(private val config: SpotifyClientConfiguration) {
             bearer {
                 loadTokens {
                     val tokenInfo = tokenClient.use {
-                        it.submitForm<TokenInfo>(block = makeTokenRequestBuilder("authorization_code"))
+                        it.submitForm<TokenInfo>(block = makeTokenRequestBuilder(
+                            if (authorizationCode == null) GrantType.CLIENT_CREDENTIALS
+                            else GrantType.AUTHORIZATION_CODE)
+                        )
                     }
                     accessToken = tokenInfo.accessToken
-                    refreshToken = tokenInfo.refreshToken!!
+                    refreshToken = tokenInfo.refreshToken
                     BearerTokens(
                         accessToken = tokenInfo.accessToken,
-                        refreshToken = tokenInfo.refreshToken
+                        refreshToken = tokenInfo.refreshToken.orEmpty()
                     )
                 }
                 refreshTokens {
                     val tokenInfo = tokenClient.use {
-                        it.submitForm<TokenInfo>(block = makeTokenRequestBuilder("refresh_token"))
+                        it.submitForm<TokenInfo>(block = makeTokenRequestBuilder(
+                            if (authorizationCode == null) GrantType.CLIENT_CREDENTIALS
+                            else GrantType.REFRESH_TOKEN))
                     }
                     BearerTokens(
                         accessToken = tokenInfo.accessToken,
-                        refreshToken = refreshToken!!
+                        refreshToken = refreshToken.orEmpty()
                     )
                 }
             }
