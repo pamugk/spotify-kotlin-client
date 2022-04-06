@@ -10,17 +10,17 @@ import kotlinx.serialization.SerialName
 data class Track(
     /**
      * The album on which the track appears.
-     * The album object includes a link in {@link Album#href} href to full information about the album.
+     * The album object includes a link in [Album.href] href to full information about the album.
      */
     val album: Album?,
     /**
      * The album on which the track appears.
-     * The album object includes a link in {@link Artist#href} to full information about the album.
+     * The album object includes a link in [Artist.href] to full information about the album.
      */
     val artists: List<Artist>,
     @SerialName("available_markets")
     /**
-     * The markets in which the track is available: <a href="http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">ISO 3166-1 alpha-2</a> country codes.
+     * The markets in which the track is available: [ISO 3166-1 alpha-2](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country codes.
      */
     val availableMarkets: List<String>,
     @SerialName("disc_number")
@@ -52,25 +52,25 @@ data class Track(
      */
     override val href: String,
     /**
-     * The <a href="https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids">Spotify ID</a> for the track.
+     * The [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the track.
      */
     override val id: String,
     @SerialName("is_playable")
     /**
-     * Part of the response when <a href="https://developer.spotify.com/documentation/general/guides/track-relinking-guide/">Track Relinking</a> is applied.
+     * Part of the response when [Track Relinking](https://developer.spotify.com/documentation/general/guides/track-relinking-guide/) is applied.
      * If <strong>true</a>, the track is playable in the given market.
      * Otherwise <strong>false</strong>.
      */
     val playable: Boolean,
     @SerialName("linked_from")
     /**
-     * Part of the response when <a href="https://developer.spotify.com/documentation/general/guides/track-relinking-guide/">Track Relinking</a> is applied, and the requested track has been replaced with different track.
+     * Part of the response when [Track Relinking](https://developer.spotify.com/documentation/general/guides/track-relinking-guide/) is applied, and the requested track has been replaced with different track.
      * The track in the linked_from object contains information about the originally requested track.
      */
     val linkedFrom: Track?,
     /**
      * Included in the response when a content restriction is applied.
-     * See <a href="https://developer.spotify.com/documentation/web-api/reference/#object-trackrestrictionobject">Restriction Object</a> for more details.
+     * See [Restriction Object](https://developer.spotify.com/documentation/web-api/reference/#object-trackrestrictionobject) for more details.
      */
     val restrictions: Restrictions?,
     /**
@@ -101,7 +101,7 @@ data class Track(
      */
     val trackNumber: Int,
     /**
-     * The <a href="https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids">Spotify URI</a> for the track.
+     * The [Spotify URI](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the track.
      */
     override val uri: String,
     @SerialName("is_local")

@@ -26,7 +26,7 @@ data class Artist(
      */
     override val href: String,
     /**
-     * The <a href="https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids">Spotify ID</a> for the artist.
+     * The [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the artist.
      */
     override val id: String,
     /**
@@ -43,7 +43,7 @@ data class Artist(
      */
     val popularity: Int,
     /**
-     * The <a href="https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids">Spotify URI</a> for the artist.
+     * The [Spotify URI](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the artist.
      */
     override val uri: String
 ): Entity()

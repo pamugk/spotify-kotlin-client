@@ -16,7 +16,7 @@ data class Episode(
     val previewUrl: String?,
     /**
      * A description of the episode.
-     * HTML tags are stripped away from this field, use {@link #htmlDescription} field in case HTML tags are needed.
+     * HTML tags are stripped away from this field, use [htmlDescription] field in case HTML tags are needed.
      */
     val description: String,
     @SerialName("html_description")
@@ -44,7 +44,7 @@ data class Episode(
      */
     override val href: String,
     /**
-     * The <a href="https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids">Spotify ID</a> for the episode.
+     * The [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the episode.
      */
     override val id: String,
     /**
@@ -65,11 +65,11 @@ data class Episode(
     /**
      * The language used in the episode, identified by a ISO 639 code.
      * This field is deprecated and might be removed in the future.
-     * Please use the {@link #languages} field instead.
+     * Please use the [languages] field instead.
      */
     val language: String,
     /**
-     * A list of the languages used in the episode, identified by their <a href="https://en.wikipedia.org/wiki/ISO_639">ISO 639-1</a> code.
+     * A list of the languages used in the episode, identified by their [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639) code.
      */
     val languages: List<String>,
     /**
@@ -84,22 +84,22 @@ data class Episode(
     val releaseDate: LocalDate,
     @SerialName("release_date_precision")
     /**
-     * The precision with which {@link #release_date} value is known.
+     * The precision with which [releaseDate] value is known.
      */
     val releaseDatePrecision: DatePrecision,
     @SerialName("resume_point")
     /**
      * The user's most recent position in the episode.
-     * Set if the supplied access token is a user token and has the scope <a href="https://developer.spotify.com/documentation/general/guides/authorization-guide/#list-of-scopes">user-read-playback-position</a>.
+     * Set if the supplied access token is a user token and has the scope [user-read-playback-position](https://developer.spotify.com/documentation/general/guides/authorization-guide/#list-of-scopes).
      */
     val resumePoint: ResumePoint?,
     /**
-     * The <a href="https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids">Spotify URI</a> for the album.
+     * The [Spotify URI](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the album.
      */
     override val uri: String,
     /**
      * Included in the response when a content restriction is applied.
-     * See <a href="https://developer.spotify.com/documentation/web-api/reference/#object-episoderestrictionobject">Restriction Object</a> for more details.
+     * See [Restriction Object](https://developer.spotify.com/documentation/web-api/reference/#object-episoderestrictionobject) for more details.
      */
     val restrictions: Restrictions,
     val show: Show

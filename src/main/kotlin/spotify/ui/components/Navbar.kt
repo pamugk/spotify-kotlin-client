@@ -1,6 +1,5 @@
 package spotify.ui.components
 
-import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.material.Button
@@ -12,17 +11,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.BitmapPainter
+import androidx.compose.ui.text.font.FontWeight
 import dev.burnoo.cokoin.get
 import spotify.api.SpotifyOAuth2Client
 import spotify.api.domain.User
 import spotify.api.service.getCurrentUser
+import spotify.ui.resources.fontAwesomeFamily
 import spotify.ui.util.AsyncImage
 import spotify.ui.util.loadImageBitmapAsync
 import java.awt.Desktop
 import java.net.URI
 
 @Composable
-@Preview
 inline fun Navbar(
     modifier: Modifier = Modifier,
     secondaryContent: @Composable () -> Unit
@@ -34,10 +34,10 @@ inline fun Navbar(
 
     Row(modifier = modifier) {
         Button(onClick = {}){
-            Text("<")
+            Text("angle-left", fontFamily = fontAwesomeFamily, fontWeight = FontWeight.W900)
         }
         Button(onClick = {}){
-            Text(">")
+            Text("angle-right", fontFamily = fontAwesomeFamily, fontWeight = FontWeight.W900)
         }
         secondaryContent()
         Spacer(Modifier.weight(1f))

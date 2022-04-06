@@ -10,8 +10,8 @@ import kotlinx.serialization.SerialName
 data class User(
     /**
      * The country of the user, as set in the user's account profile.
-     * An <a href="http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">ISO 3166-1 alpha-2</a> country code.
-     * This field is only available when the current user has granted access to the <a href="https://developer.spotify.com/documentation/general/guides/authorization-guide/#list-of-scopes">user-read-private</a> scope.
+     * An [ISO 3166-1 alpha-2](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code.
+     * This field is only available when the current user has granted access to the [user-read-private](https://developer.spotify.com/documentation/general/guides/authorization-guide/#list-of-scopes) scope.
      */
     val country: String?,
     /**
@@ -22,7 +22,7 @@ data class User(
     /**
      * The user's email address, as entered by the user when creating their account.
      * Important! This email address is unverified; there is no proof that it actually belongs to the user.
-     * This field is only available when the current user has granted access to the <a href="https://developer.spotify.com/documentation/general/guides/authorization-guide/#list-of-scopes">user-read-email</a> scope.
+     * This field is only available when the current user has granted access to the [user-read-email](https://developer.spotify.com/documentation/general/guides/authorization-guide/#list-of-scopes) scope.
      */
     val email: String?,
     /**
@@ -45,7 +45,7 @@ data class User(
      */
     override val href: String,
     /**
-     * The <a href="https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids">Spotify user ID</a> for the user.
+     * The [Spotify user ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the user.
      */
     override val id: String,
     /**
@@ -55,7 +55,7 @@ data class User(
     /**
      * The user's Spotify subscription level: "premium", "free", etc.
      * (The subscription level "open" can be considered the same as "free".)
-     * This field is only available when the current user has granted access to the <a href="https://developer.spotify.com/documentation/general/guides/authorization-guide/#list-of-scopes">user-read-private</a> scope.
+     * This field is only available when the current user has granted access to the [user-read-private](https://developer.spotify.com/documentation/general/guides/authorization-guide/#list-of-scopes) scope.
      */
     val product: String?,
     /**
@@ -63,7 +63,7 @@ data class User(
      */
     val type: String,
     /**
-     * The <a href="https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids">Spotify URI</a> for the user.
+     * The [Spotify URI](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the user.
      */
     override val uri: String
 ): Entity() {

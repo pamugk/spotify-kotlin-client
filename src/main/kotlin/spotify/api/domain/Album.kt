@@ -24,7 +24,7 @@ data class Album(
     val totalTracks: Int,
     @SerialName("available_markets")
     /**
-     * The markets in which the album is available: <a href="http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">ISO 3166-1 alpha-2</a> country codes.
+     * The markets in which the album is available: [ISO 3166-1 alpha-2](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country codes.
      * NOTE: an album is considered available in a market when at least 1 of its tracks is available in that market.
      */
     val availableMarkets: List<String>,
@@ -38,7 +38,7 @@ data class Album(
      */
     override val href: String,
     /**
-     * The <a href="https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids">Spotify ID</a> for the album.
+     * The [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the album.
      */
     override val id: String,
     /**
@@ -56,7 +56,7 @@ data class Album(
     val releaseDate: LocalDate,
     @SerialName("release_date_precision")
     /**
-     * The precision with which {@link #releaseDate} value is known.
+     * The precision with which [releaseDate] value is known.
      */
     val releaseDatePrecision: DatePrecision,
     /**
@@ -68,12 +68,12 @@ data class Album(
      */
     val type: String,
     /**
-     * The <a href="https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids">Spotify URI</a> for the album.
+     * The [Spotify URI](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the album.
      */
     override val uri: String,
     /**
      * The artists of the album.
-     * Each artist object includes a link in {@link Artist#href} to more detailed information about the artist.
+     * Each artist object includes a link in [Artist.href] to more detailed information about the artist.
      */
     val artists: List<Artist> = listOf(),
     /**

@@ -11,7 +11,7 @@ import spotify.api.common.Page
 data class Show(
     @SerialName("available_markets")
     /**
-     * A list of the countries in which the show can be played, identified by their <a href="http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">ISO 3166-1 alpha-2</a> code.
+     * A list of the countries in which the show can be played, identified by their [ISO 3166-1 alpha-2](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) code.
      */
     val availableMarkets: List<String>,
     /**
@@ -20,7 +20,7 @@ data class Show(
     val copyrights: List<Copyright>,
     /**
      * A description of the show.
-     * HTML tags are stripped away from this field, use {@link #htmlDescription} field in case HTML tags are needed.
+     * HTML tags are stripped away from this field, use [htmlDescription] field in case HTML tags are needed.
      */
     val description: String,
     @SerialName("html_description")
@@ -43,7 +43,7 @@ data class Show(
      */
     override val href: String,
     /**
-     * The <a href="https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids">Spotify ID</a> for the show.
+     * The [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the show.
      */
     override val id: String,
     /**
@@ -57,7 +57,7 @@ data class Show(
      */
     val externallyHosted: Boolean?,
     /**
-     * A list of the languages used in the show, identified by their <a href="https://en.wikipedia.org/wiki/ISO_639">ISO 639</a> code.
+     * A list of the languages used in the show, identified by their [ISO 639](https://en.wikipedia.org/wiki/ISO_639) code.
      */
     val languages: List<String>,
     @SerialName("media_type")
@@ -74,7 +74,7 @@ data class Show(
      */
     val publisher: String,
     /**
-     * The <a href="https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids">Spotify URI</a> for the show.
+     * The [Spotify URI](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the show.
      */
     override val uri: String,
     /**

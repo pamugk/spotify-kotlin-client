@@ -31,15 +31,15 @@ data class Playlist(
      */
     override val href: String,
     /**
-     * The <a href="https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids">Spotify ID</a> for the playlist.
+     * The [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the playlist.
      */
     override val id: String,
     /**
      * Images for the playlist.
      * The array may be empty or contain up to three images.
      * The images are returned by size in descending order.
-     * See <a href="https://developer.spotify.com/documentation/general/guides/working-with-playlists/">Working with Playlists</a>.
-     * <strong>Note</strong>: If returned, the source URL for the image ({@link Image#url}) is temporary and will expire in less than a day.
+     * See [Working with Playlists](https://developer.spotify.com/documentation/general/guides/working-with-playlists/).
+     * <strong>Note</strong>: If returned, the source URL for the image [Image.url] is temporary and will expire in less than a day.
      */
     val images: List<Image>,
     /**
@@ -52,7 +52,7 @@ data class Playlist(
     val owner: User,
     /**
      * The playlist's public/private status: <strong>true</strong> the playlist is public, <strong>false</strong> the playlist is private, null the playlist status is not relevant.
-     * For more about public/private status, see <a href="https://developer.spotify.com/documentation/general/guides/working-with-playlists/">Working with Playlists</a>
+     * For more about public/private status, see [Working with Playlists](https://developer.spotify.com/documentation/general/guides/working-with-playlists)
      */
     val public: Boolean,
     @SerialName("snapshot_id")
@@ -66,7 +66,7 @@ data class Playlist(
      */
     val tracks: Page<Track>,
     /**
-     * The <a href="https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids">Spotify URI</a> for the playlist.
+     * The [Spotify URI](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the playlist.
      */
     override val uri: String
 ): Entity()
