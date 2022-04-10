@@ -1,8 +1,6 @@
-package spotify.ui.components
+package spotify.ui.widgets
 
-import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
 import androidx.compose.material.Slider
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton

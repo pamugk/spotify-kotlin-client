@@ -1,4 +1,4 @@
-package spotify.ui.components
+package spotify.ui.widgets
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*

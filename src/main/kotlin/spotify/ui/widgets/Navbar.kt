@@ -1,4 +1,4 @@
-package spotify.ui.components
+package spotify.ui.widgets
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,7 +13,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.text.font.FontWeight
-import dev.burnoo.cokoin.get
 import spotify.api.SpotifyOAuth2Client
 import spotify.api.domain.User
 import spotify.api.service.getCurrentUser
@@ -30,8 +29,8 @@ inline fun Navbar(
 ) {
     val loggedIn = remember { mutableStateOf(false) }
     val user = remember { mutableStateOf<User?>(null) }
-    val spotifyClient = get<SpotifyOAuth2Client>()
-    spotifyClient.authenticationStatusChanged += { loggedIn.value = it }
+    /*val spotifyClient = get<SpotifyOAuth2Client>()
+    spotifyClient.authenticationStatusChanged += { loggedIn.value = it }*/
 
     Row(modifier = modifier) {
         TextButton(onClick = {}, enabled = false){
@@ -46,17 +45,17 @@ inline fun Navbar(
         if (loggedIn.value) {
             if (user.value == null) {
                 LaunchedEffect(true) {
-                    user.value = spotifyClient.getCurrentUser()
+                    //user.value = spotifyClient.getCurrentUser()
                 }
 
                 Button(onClick = {
-                    spotifyClient.logOut()
+                    //spotifyClient.logOut()
                 }){
                     CircularProgressIndicator()
                 }
             } else {
                 Button(onClick = {
-                    spotifyClient.logOut()
+                    //spotifyClient.logOut()
                 }){
                     if (user.value!!.images.isNotEmpty()) {
                         AsyncImage(
@@ -70,7 +69,7 @@ inline fun Navbar(
             }
         } else {
             Button(onClick = {
-                Desktop.getDesktop().browse(URI.create(spotifyClient.loginUrl))
+                //Desktop.getDesktop().browse(URI.create(spotifyClient.loginUrl))
             }){
                 Text("Вход")
             }
