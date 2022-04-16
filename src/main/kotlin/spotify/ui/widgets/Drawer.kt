@@ -20,7 +20,7 @@ import spotify.ui.resources.fontAwesomeFamily
 fun Drawer(component: Drawer, modifier: Modifier = Modifier) {
     Column(modifier.padding(8.dp).width(IntrinsicSize.Max)) {
         Image(painterResource("spotify/logo.svg"), "Spotify")
-        TextButton({}, modifier = Modifier.fillMaxWidth()) {
+        TextButton(component::navigateToMain, modifier = Modifier.fillMaxWidth()) {
             Text(buildAnnotatedString {
                 withStyle(SpanStyle(fontFamily = fontAwesomeFamily, fontWeight = FontWeight.W900)) {
                     append("house")
@@ -28,7 +28,7 @@ fun Drawer(component: Drawer, modifier: Modifier = Modifier) {
                 append("Главная")
             }, modifier = Modifier.fillMaxWidth())
         }
-        TextButton({}, modifier = Modifier.fillMaxWidth()) {
+        TextButton(component::navigateToSearch, modifier = Modifier.fillMaxWidth()) {
             Text(buildAnnotatedString {
                 withStyle(SpanStyle(fontFamily = fontAwesomeFamily, fontWeight = FontWeight.W900)) {
                     append("magnifying-glass")
@@ -36,7 +36,7 @@ fun Drawer(component: Drawer, modifier: Modifier = Modifier) {
                 append("Поиск")
             }, modifier = Modifier.fillMaxWidth())
         }
-        TextButton({}, modifier = Modifier.fillMaxWidth()) {
+        TextButton(component::navigateToLibrary, modifier = Modifier.fillMaxWidth()) {
             Text(buildAnnotatedString {
                 withStyle(SpanStyle(fontFamily = fontAwesomeFamily, fontWeight = FontWeight.W900)) {
                     append("bars")
@@ -44,7 +44,7 @@ fun Drawer(component: Drawer, modifier: Modifier = Modifier) {
                 append("Моя медиатека")
             }, modifier = Modifier.fillMaxWidth())
         }
-        TextButton({}, modifier = Modifier.fillMaxWidth()) {
+        TextButton(component::navigateToNewPlaylist, modifier = Modifier.fillMaxWidth()) {
             Text(buildAnnotatedString {
                 withStyle(SpanStyle(fontFamily = fontAwesomeFamily, fontWeight = FontWeight.W900)) {
                     append("square-plus")
@@ -52,7 +52,7 @@ fun Drawer(component: Drawer, modifier: Modifier = Modifier) {
                 append("Создать плейлист")
             }, modifier = Modifier.fillMaxWidth())
         }
-        TextButton({}, modifier = Modifier.fillMaxWidth()) {
+        TextButton(component::navigateToFavourite, modifier = Modifier.fillMaxWidth()) {
             Text(buildAnnotatedString {
                 withStyle(SpanStyle(fontFamily = fontAwesomeFamily, fontWeight = FontWeight.W900)) {
                     append("heart")

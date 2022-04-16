@@ -3,6 +3,8 @@ package spotify.components
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.childContext
 import com.arkivanov.decompose.router.RouterState
+import com.arkivanov.decompose.router.push
+import com.arkivanov.decompose.router.replaceCurrent
 import com.arkivanov.decompose.router.router
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
@@ -55,7 +57,21 @@ class AppComponent(
 
     override val navbar = NavbarComponent(api, authorized, childContext("Navbar"))
     override val player = PlayerComponent(api, childContext("Player"))
-    override val drawer = DrawerComponent(childContext("Drawer"))
+    override val drawer = DrawerComponent(
+        childContext("Drawer"),
+        { checkedPush(Config.Main) },
+        { checkedPush(Config.Search("")) },
+        {},
+        {},
+        { checkedPush(Config.Playlist(it)) },
+        {}
+    )
+
+    private fun checkedPush(newConfig: Config) {
+        if (routerState.value.activeChild.configuration != newConfig) {
+            router.replaceCurrent(newConfig)
+        }
+    }
 
     private fun child(config: Config, componentContext: ComponentContext): App.Page =
         when (config) {
