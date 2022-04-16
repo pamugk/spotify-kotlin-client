@@ -1,4 +1,4 @@
-package spotify.ui.components
+package spotify.components
 
 import com.arkivanov.decompose.ComponentContext
 

@@ -7,7 +7,7 @@ import androidx.compose.ui.window.rememberTrayState
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import spotify.ui.AppUI
-import spotify.ui.components.AppComponent
+import spotify.components.AppComponent
 
 fun main() {
     val lifecycle = LifecycleRegistry()

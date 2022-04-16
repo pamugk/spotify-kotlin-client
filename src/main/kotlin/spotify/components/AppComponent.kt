@@ -1,17 +1,26 @@
-package spotify.ui.components
+package spotify.components
 
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.childContext
 import com.arkivanov.decompose.router.RouterState
 import com.arkivanov.decompose.router.router
+import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.decompose.value.reduce
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import spotify.api.SpotifyOAuth2Client
+import spotify.components.widgets.*
 
 interface App {
     val routerState: Value<RouterState<*, Page>>
+
+    val navbar: Navbar
+    val player: Player
+    val drawer: Drawer
+
     sealed interface Page {
         data class Main(val component: MainPage): Page
         data class Search(val component: SearchPage): Page
@@ -35,7 +44,18 @@ class AppComponent(
         childFactory = ::child
     )
 
+    private val _authorizedValue = MutableValue(false)
+    private val authorized = _authorizedValue
+
+    init {
+        api.authenticationStatusChanged += { authorized -> _authorizedValue.reduce { authorized } }
+    }
+
     override val routerState: Value<RouterState<*, App.Page>> = router.state
+
+    override val navbar = NavbarComponent(api, authorized, childContext("Navbar"))
+    override val player = PlayerComponent(api, childContext("Player"))
+    override val drawer = DrawerComponent(childContext("Drawer"))
 
     private fun child(config: Config, componentContext: ComponentContext): App.Page =
         when (config) {

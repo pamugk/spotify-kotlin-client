@@ -13,24 +13,21 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.text.font.FontWeight
-import spotify.api.SpotifyOAuth2Client
+import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import spotify.api.domain.User
-import spotify.api.service.getCurrentUser
+import spotify.components.widgets.Navbar
 import spotify.ui.resources.fontAwesomeFamily
 import spotify.ui.util.AsyncImage
 import spotify.ui.util.loadImageBitmapAsync
-import java.awt.Desktop
-import java.net.URI
 
 @Composable
-inline fun Navbar(
+inline fun NavbarUi(
+    component: Navbar,
     modifier: Modifier = Modifier,
     secondaryContent: @Composable () -> Unit
 ) {
-    val loggedIn = remember { mutableStateOf(false) }
+    val loggedIn = component.authorizationState.subscribeAsState()
     val user = remember { mutableStateOf<User?>(null) }
-    /*val spotifyClient = get<SpotifyOAuth2Client>()
-    spotifyClient.authenticationStatusChanged += { loggedIn.value = it }*/
 
     Row(modifier = modifier) {
         TextButton(onClick = {}, enabled = false){
@@ -45,17 +42,17 @@ inline fun Navbar(
         if (loggedIn.value) {
             if (user.value == null) {
                 LaunchedEffect(true) {
-                    //user.value = spotifyClient.getCurrentUser()
+                    user.value = component.getUser()
                 }
 
                 Button(onClick = {
-                    //spotifyClient.logOut()
+                    component.logOut()
                 }){
                     CircularProgressIndicator()
                 }
             } else {
                 Button(onClick = {
-                    //spotifyClient.logOut()
+                    component.logOut()
                 }){
                     if (user.value!!.images.isNotEmpty()) {
                         AsyncImage(
@@ -69,7 +66,7 @@ inline fun Navbar(
             }
         } else {
             Button(onClick = {
-                //Desktop.getDesktop().browse(URI.create(spotifyClient.loginUrl))
+                component.logIn()
             }){
                 Text("Вход")
             }

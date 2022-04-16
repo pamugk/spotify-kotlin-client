@@ -13,10 +13,11 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import spotify.components.widgets.Drawer
 import spotify.ui.resources.fontAwesomeFamily
 
 @Composable
-fun Drawer(modifier: Modifier = Modifier) {
+fun Drawer(component: Drawer, modifier: Modifier = Modifier) {
     Column(modifier.padding(8.dp).width(IntrinsicSize.Max)) {
         Image(painterResource("spotify/logo.svg"), "Spotify")
         TextButton({}, modifier = Modifier.fillMaxWidth()) {
