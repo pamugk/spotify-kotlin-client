@@ -6,5 +6,7 @@ import spotify.components.SearchPage
 
 @Composable
 fun SearchPageUi(component: SearchPage) {
-    Text("Поиск")
+    if (component.isSearching()) {
+
+    }
 }

@@ -10,11 +10,8 @@ import java.net.URI
 
 interface Navbar {
     val authorizationState: Value<Boolean>
-
     fun logIn()
-
     suspend fun getUser(): User
-
     fun logOut()
 }
 

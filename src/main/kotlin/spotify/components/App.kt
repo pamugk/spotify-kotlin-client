@@ -3,7 +3,6 @@ package spotify.components
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.childContext
 import com.arkivanov.decompose.router.RouterState
-import com.arkivanov.decompose.router.push
 import com.arkivanov.decompose.router.replaceCurrent
 import com.arkivanov.decompose.router.router
 import com.arkivanov.decompose.value.MutableValue
@@ -20,6 +19,7 @@ interface App {
     val routerState: Value<RouterState<*, Page>>
 
     val navbar: Navbar
+    val searchbar: Searchbar
     val player: Player
     val drawer: Drawer
 
@@ -56,6 +56,7 @@ class AppComponent(
     override val routerState: Value<RouterState<*, App.Page>> = router.state
 
     override val navbar = NavbarComponent(api, authorized, childContext("Navbar"))
+    override val searchbar = SearchbarComponent(childContext("Searchbar"))
     override val player = PlayerComponent(api, childContext("Player"))
     override val drawer = DrawerComponent(
         childContext("Drawer"),
@@ -76,38 +77,38 @@ class AppComponent(
     private fun child(config: Config, componentContext: ComponentContext): App.Page =
         when (config) {
             is Config.Main -> App.Page.Main(main(componentContext))
-            is Config.Search -> App.Page.Search(search(componentContext))
+            is Config.Search -> App.Page.Search(search(config, componentContext))
 
-            is Config.Album -> App.Page.Album(album(componentContext))
-            is Config.Artist -> App.Page.Artist(artist(componentContext))
-            is Config.Episode -> App.Page.Episode(episode(componentContext))
-            is Config.Playlist -> App.Page.Playlist(playlist(componentContext))
-            is Config.Show -> App.Page.Show(show(componentContext))
-            is Config.User -> App.Page.User(user(componentContext))
+            is Config.Album -> App.Page.Album(album(config, componentContext))
+            is Config.Artist -> App.Page.Artist(artist(config, componentContext))
+            is Config.Episode -> App.Page.Episode(episode(config, componentContext))
+            is Config.Playlist -> App.Page.Playlist(playlist(config, componentContext))
+            is Config.Show -> App.Page.Show(show(config, componentContext))
+            is Config.User -> App.Page.User(user(config, componentContext))
         }
 
     private fun main(componentContext: ComponentContext): MainPage =
         MainPageComponent(componentContext)
 
-    private fun search(componentContext: ComponentContext): SearchPage =
-        SearchPageComponent(componentContext)
+    private fun search(config: Config.Search, componentContext: ComponentContext): SearchPage =
+        SearchPageComponent(componentContext, config.query)
 
-    private fun album(componentContext: ComponentContext): AlbumPage =
+    private fun album(config: Config.Album, componentContext: ComponentContext): AlbumPage =
         AlbumPageComponent(componentContext)
 
-    private fun artist(componentContext: ComponentContext): ArtistPage =
+    private fun artist(config: Config.Artist, componentContext: ComponentContext): ArtistPage =
         ArtistPageComponent(componentContext)
 
-    private fun episode(componentContext: ComponentContext): EpisodePage =
+    private fun episode(config: Config.Episode, componentContext: ComponentContext): EpisodePage =
         EpisodePageComponent(componentContext)
 
-    private fun playlist(componentContext: ComponentContext): PlaylistPage =
+    private fun playlist(config: Config.Playlist, componentContext: ComponentContext): PlaylistPage =
         PlaylistPageComponent(componentContext)
 
-    private fun show(componentContext: ComponentContext): ShowPage =
+    private fun show(config: Config.Show, componentContext: ComponentContext): ShowPage =
         ShowPageComponent(componentContext)
 
-    private fun user(componentContext: ComponentContext): UserPage =
+    private fun user(config: Config.User, componentContext: ComponentContext): UserPage =
         UserPageComponent(componentContext)
 
     private sealed interface Config: Parcelable {

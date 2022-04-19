@@ -1,9 +1,9 @@
 package spotify.ui.pages
 
 import androidx.compose.runtime.Composable
-import spotify.components.AlbumPage
+import spotify.components.UserPage
 
 @Composable
-fun AlbumPageUi(component: AlbumPage) {
+fun UserPageUi(component: UserPage) {
 
 }

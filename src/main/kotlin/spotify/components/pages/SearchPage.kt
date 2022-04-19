@@ -2,8 +2,20 @@ package spotify.components
 
 import com.arkivanov.decompose.ComponentContext
 
-interface SearchPage
+interface SearchPage {
+    fun isSearching(): Boolean
+    fun doSearch()
+}
 
 class SearchPageComponent(
-    componentContext: ComponentContext
-) : SearchPage, ComponentContext by componentContext
+    componentContext: ComponentContext,
+    private val query: String
+) : SearchPage, ComponentContext by componentContext {
+    override fun isSearching(): Boolean {
+        return query.isNotEmpty()
+    }
+
+    override fun doSearch() {
+
+    }
+}
